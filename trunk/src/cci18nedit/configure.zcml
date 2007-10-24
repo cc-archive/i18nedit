@@ -1,0 +1,35 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:i18n="http://namespaces.zope.org/i18n"
+           xmlns:mail="http://namespaces.zope.org/mail"
+           xmlns:browser="http://namespaces.zope.org/browser"
+
+           i18n_domain="cci18nedit">
+
+  <include package="zope.security" file="meta.zcml" />
+  <include package="zope.app.zcmlfiles" file="meta.zcml" />
+
+  <include package="zope.publisher" />
+  <include package="zope.traversing" />
+  <include package="zope.traversing.browser" />
+  <include package="zope.app.zcmlfiles" />
+
+  <include package="zope.i18n" file="meta.zcml" />
+  <include package="zope.annotation" />
+  <include package="zope.copypastemove" />
+  <include package="zope.formlib" />
+  <include package="zope.i18n.locales" />
+  <include package="zope.app.authentication" />
+  <include package="zope.app.session" />
+  <include package="zope.app.intid" />
+  <include package="zope.app.keyreference" />
+  <include package="zope.app.catalog" />
+
+  <include package="zope.app.container.browser" file="meta.zcml" />
+  <include package="zope.app.container.browser" />
+
+  <!-- Add your own component registrations here -->
+  <i18n:registerTranslations directory="./locales/" />
+
+  <!-- Include our versions of the zope.app.i18n pages. -->
+  <includeOverrides package=".browser" />
+</configure>
