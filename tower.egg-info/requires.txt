@@ -1,0 +1,4 @@
+setuptools
+Pylons>=0.9.6.1
+Babel
+jsonlib

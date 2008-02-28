@@ -1,0 +1,8 @@
+* column widths
+* Authentication
+* Support suggestions
+* Individual view, with suggestions
+* Subscribe to changes
+* Updated view
+* Pagination
+* interface to multi-language display selection

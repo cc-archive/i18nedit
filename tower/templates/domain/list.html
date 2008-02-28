@@ -1,0 +1,16 @@
+<%inherit file="/base.html"/>
+
+<%def name="head()"></%def>
+
+<%def name="title()">
+Translation Domains
+</%def>
+
+<%def name="body()">
+<ul>
+  % for domain in c.domains:
+     <li><a href="${h.url_for(controller='domain', action='view',
+     id=domain.name)}">${domain.name}</a></li>
+  % endfor
+</ul>
+</%def>

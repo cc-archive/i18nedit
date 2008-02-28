@@ -1,0 +1,40 @@
+<html>
+  <head>
+
+    <title>${self.title()}</title>
+
+    <link rel="stylesheet" type="text/css"
+	  href="http://yui.yahooapis.com/2.5.0/build/reset-fonts-grids/reset-fonts-grids.css"
+	  /> 
+    <link rel="stylesheet" type="text/css"
+	  href="http://yui.yahooapis.com/2.5.0/build/base/base-min.css"
+	  /> 
+
+    <script type="text/javascript"
+	    src="http://yui.yahooapis.com/2.5.0/build/yahoo-dom-event/yahoo-dom-event.js"></script> 
+    <script type="text/javascript"
+	    src="http://yui.yahooapis.com/2.5.0/build/element/element-beta-min.js"></script>
+
+    ${next.head()}
+
+  </head>
+
+  <body class="yui-skin-sam">
+    
+    <div id="doc2" class="yui-t7">
+      <div id="hd"><h1>${self.title()}</h1></div>
+      <div id="bd">
+	<div class="yui-g">
+	  ${next.body()}
+	</div>
+
+      </div>
+      <div id="ft"></div>
+    </div>
+  </body>
+
+</html>
+
+<%def name="title()">
+translate.creativecommons.org
+</%def>

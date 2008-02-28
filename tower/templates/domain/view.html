@@ -1,0 +1,16 @@
+<%inherit file="/base.html"/>
+
+<%def name="head()"></%def>
+
+<%def name="title()">
+${c.domain.name}: Available Languages
+</%def>
+
+<%def name="body()">
+<ul>
+  % for lang in c.languages:
+     <li><a href="${h.url_for(controller='language', action='view',
+     id=lang.name, domain=c.domain.name)}">${lang}</a></li>
+  % endfor
+</ul>
+</%def>

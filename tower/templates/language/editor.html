@@ -1,0 +1,89 @@
+<%inherit file="/base.html"/>
+
+<%def name="ds_url()">
+ "${h.url_for(controller='language', action='strings', id=c.language.name, domain=c.domain.name)}"
+</%def>
+
+<%def name="head()">
+    <link type="text/css" rel="stylesheet"
+	  href="http://yui.yahooapis.com/2.5.0/build/datatable/assets/skins/sam/datatable.css"> 
+
+    <script type="text/javascript"
+	    src="http://yui.yahooapis.com/2.5.0/build/datasource/datasource-beta-min.js"></script> 
+
+    <!-- JSON Utility -->
+    <script type="text/javascript"
+	    src="http://yui.yahooapis.com/2.5.0/build/json/json-min.js">
+    </script> 
+
+    <!-- Connection (enables XHR) -->
+    <script type="text/javascript"
+	src="http://yui.yahooapis.com/2.5.0/build/connection/connection-min.js">
+    </script> 
+
+    <script type="text/javascript" src="http://yui.yahooapis.com/2.5.0/build/dragdrop/dragdrop-min.js"></script>
+
+<!-- OPTIONAL: Calendar (enables calendar editors)
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.0/build/calendar/calendar-min.js"></script>
+ -->
+
+    <!-- Source files -->
+    <script type="text/javascript"
+    src="http://yui.yahooapis.com/2.5.0/build/datatable/datatable-beta-min.js"></script> 
+
+<script type="text/javascript">
+YAHOO.util.Event.addListener(window, "load", function() {
+
+        var myColumnDefs = [
+            {key:"id", label:"Name", sortable:true},
+     % for l in c.addl_langs:
+            {key:"${l}", label:"${l}", sortable:true},
+     % endfor
+            {key:"value", label:"Translation", editor:"textarea"},
+        ];
+
+        this.myDataSource = new YAHOO.util.DataSource(${self.ds_url()} + "?${c.addl_langs_qs}");
+        this.myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
+        this.myDataSource.connXhrMode = "queueRequests";
+        this.myDataSource.responseSchema = {
+            resultsList: "strings",
+            fields: ["id","value", ${c.addl_langs_list}]
+        };
+ 
+        this.myDataTable = new YAHOO.widget.DataTable("strings_table", 
+                myColumnDefs, this.myDataSource, {initialRequest:""});
+
+        this.myDataTable.subscribe("cellClickEvent", 
+                                   this.myDataTable.onEventShowCellEditor); 
+        this.myDataTable.subscribe("editorSaveEvent", function(e) {
+          // create an object to post back
+
+          var edit = {id: e.editor.record.getData().id,
+                      new_value: e.newData,
+                      old_value: e.oldData};
+
+          var edit_callback = {
+             success: function(o) {
+             },
+             failure: function(o) {
+             },
+             argument:edit,
+             cache:false,
+          };
+
+          var transaction = YAHOO.util.Connect.asyncRequest('POST', 
+                  "${h.url_for(controller='language', action='edit_string', id=c.language.name, domain=c.domain.name)}",
+                  edit_callback, "data=" + YAHOO.lang.JSON.stringify(edit));
+        });
+
+});
+</script>
+
+</%def>
+
+<%def name="body()">
+
+<div id="strings_table">
+</div>
+
+</%def>

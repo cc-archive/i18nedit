@@ -1,0 +1,9 @@
+<%inherit file="editor.html"/>
+
+<%def name="ds_url()">
+ "${h.url_for(controller='language', action='untranslated_strings', id=c.language.name, domain=c.domain.name)}"
+</%def>
+
+<%def name="title()">
+${c.domain.name}: ${c.language}: Untranslated Strings
+</%def>

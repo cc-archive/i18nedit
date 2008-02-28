@@ -1,0 +1,30 @@
+<%inherit file="/base.html"/>
+
+<%def name="head()">
+
+</%def>
+
+<%def name="title()">
+${c.domain.name}: ${c.language}
+</%def>
+
+<%def name="body()">
+<ul>
+  <li><a href="${h.url_for(controller='language',
+    action='all', id=c.language.name, domain=c.domain.name)}">
+      all
+  </a></li>
+
+  <li><a href="${h.url_for(controller='language',
+    action='untranslated', id=c.language.name, domain=c.domain.name)}">
+      untranslated
+  </a></li>
+
+<!--
+  <li><a href="${h.url_for(controller='language',
+    action='updated', id=c.language.name, domain=c.domain.name)}">
+      updated
+  </a></li>
+-->
+
+</%def>
