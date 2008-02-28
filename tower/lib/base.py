@@ -15,8 +15,15 @@ import tower.model as model
 
 class BaseController(WSGIController):
 
+    def _get_roles(self):
+        return []
+
     def __call__(self, environ, start_response):
         """Invoke the Controller"""
+
+        # inject some stuff into c 
+        c.remote_user = request.environ.get("REMOTE_USER", False)
+
         # WSGIController.__call__ dispatches to the Controller method
         # the request is routed to. This routing information is
         # available in environ['pylons.routes_dict']

@@ -53,6 +53,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
         this.myDataTable = new YAHOO.widget.DataTable("strings_table", 
                 myColumnDefs, this.myDataSource, {initialRequest:""});
 
+ %if c.remote_user:
         this.myDataTable.subscribe("cellClickEvent", 
                                    this.myDataTable.onEventShowCellEditor); 
         this.myDataTable.subscribe("editorSaveEvent", function(e) {
@@ -75,6 +76,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
                   "${h.url_for(controller='language', action='edit_string', id=c.language.name, domain=c.domain.name)}",
                   edit_callback, "data=" + YAHOO.lang.JSON.stringify(edit));
         });
+  %endif
 
 });
 </script>
@@ -82,6 +84,17 @@ YAHOO.util.Event.addListener(window, "load", function() {
 </%def>
 
 <%def name="body()">
+
+%if c.remote_user:
+<p>You can click the text in the <strong>Translation</strong> column
+  to edit a translation.</p>
+  %if 'edit' not in c.user_roles:
+  <p class="notice">Your submissions will be filed
+    as <em>suggestions</em>, pending approval by a translator.</p>
+  %endif
+%else:
+<p class="notice"><a href="/account/login">Login</a> to translate strings.</p>
+%endif
 
 <div id="strings_table">
 </div>

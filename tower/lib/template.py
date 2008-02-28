@@ -27,9 +27,10 @@ class State:
 
 c = State()
 c.user = 'None'
+c.remote_user = False
 
 def make_template():
     return buffet.render(
-        template_name="/signin.html",
-        namespace=dict(h=h, c=State())
+        template_name="/account/login.html",
+        namespace=dict(h=h, c=c)
     ).replace("%", "%%").replace("FORM_ACTION", "%s")

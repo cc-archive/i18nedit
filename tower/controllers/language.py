@@ -1,13 +1,21 @@
 import urllib
 import logging
+from decorator import decorator
 
 import jsonlib
+from authkit.authorize.pylons_adaptors import authorize
+from authkit.permissions import HasAuthKitRole, ValidAuthKitUser
 from pylons.decorators import jsonify
 
 import tower.model
 from tower.lib.base import *
 
 log = logging.getLogger(__name__)
+
+def injectroles(fn, *args, **kwargs):
+
+    c.user_roles = args[0]._get_roles(*args[1:])
+    return fn(*args, **kwargs)
 
 class LanguageController(BaseController):
 
@@ -18,6 +26,24 @@ class LanguageController(BaseController):
         c.language = c.domain.get_language(id)
 
         return render('/language/view.html')
+
+    def _get_roles(self, domain, id):
+        """Return a sequence of roles the logged in user has for this 
+        language."""
+
+        username = request.environ.get("REMOTE_USER", False)
+        if not username:
+            return []
+
+        prefs = tower.model.DomainLanguage.by_domain_id(domain, id).prefs
+        if prefs.hasvalue('rights.%s' % username):
+            return prefs.getvalue('rights.%s' % username).split(',')
+
+        # fall back to the default user
+        if prefs.hasvalue('rights.default'):
+            return prefs.getvalue('rights.default').split(',')
+
+        return []
 
     def _editor(self, domain, id, template_fn):
         """Abstraction of the editor view."""
@@ -31,6 +57,7 @@ class LanguageController(BaseController):
 
         return render(template_fn)
 
+    @decorator(injectroles)
     def all(self, domain, id):
 
         return self._editor(domain, id, '/language/all.html')
@@ -77,6 +104,7 @@ class LanguageController(BaseController):
 
         return self._strings(domain, id, untrans_filter)
 
+    @authorize(ValidAuthKitUser())
     def edit_string(self, domain, id):
         """Edit an individual string."""
 

@@ -19,3 +19,34 @@ body {
    margin-top: 15px;
 }
 
+#main_nav {
+   float:right;
+   padding-right:10px;
+   font-size: 108%;
+}
+
+#main_nav ul li.nav_item {
+   float:left;
+   display: block;
+   padding-right: 10px;
+   padding-left:10px;
+   margin-right:2px;
+   background: #bfceea;
+   color: #393839;
+}
+
+#main_nav ul li.nav_item a {
+   text-decoration:none;
+   color: #d13814;
+}
+
+#main_nav ul li.nav_item a:hover {
+   text-decoration:none;
+   color: #662978;
+}
+
+.notice {
+   background-color: #fff3a2;
+   border: 1px solid #fab499;
+   padding: 3px;
+}

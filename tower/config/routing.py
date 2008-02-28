@@ -18,11 +18,13 @@ def make_map():
 
     # CUSTOM ROUTES HERE
     map.connect('', controller='domain', action='list')
+    map.connect('domain/:action', controller='domain')
     map.connect('domain/:domain/language/:id/',
                 controller='language', action='view')
     map.connect('domain/:domain/language/:id/:action/',
                 controller='language')
-    map.connect(':controller/:id/:action/')
+    map.connect(':controller/:action/:id/')
+    #map.connect(':controller/:id/:action/')
     map.connect('*url', controller='template', action='view')
 
     return map

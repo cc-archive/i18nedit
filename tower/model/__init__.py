@@ -1,8 +1,9 @@
 import os
 import babel.messages.pofile
 
-PO_DIR = os.path.join(
-    os.path.dirname(__file__), '..', '..', 'po_files')
+from pylons import config
+
+from jToolkit import prefs
 
 class Domain(object):
     """A translation domain."""
@@ -13,8 +14,8 @@ class Domain(object):
     def by_name(cls, name):
         """Return a Domain instance by name."""
 
-        if os.path.exists(os.path.join(PO_DIR, name)):
-            return Domain(name, os.path.join(PO_DIR, name))
+        if os.path.exists(os.path.join(config.get('tower.po_dir'), name)):
+            return Domain(name, os.path.join(config.get('tower.po_dir'), name))
 
         raise KeyError("Unknown domain name.")
 
@@ -22,10 +23,10 @@ class Domain(object):
     def all(cls):
         """Return a sequence of all available domains."""
 
-        return [Domain(n, os.path.join(PO_DIR, n)) 
-                for n in os.listdir(PO_DIR)
+        return [Domain(n, os.path.join(config.get('tower.po_dir'), n)) 
+                for n in os.listdir(config.get('tower.po_dir'))
                 if n not in cls._IGNORE_DIRS and 
-                   os.path.isdir(os.path.join(PO_DIR, n))]
+                   os.path.isdir(os.path.join(config.get('tower.po_dir'), n))]
 
     def __init__(self, name, path):
         self.name = name
@@ -90,6 +91,14 @@ class DomainLanguage(object):
                                                 domain=self.domain.name)
 
         return catalog
+
+    @property
+    def prefs(self):
+        """Return the Pootle (sigh) properties object."""
+
+        return prefs.PrefsParser(os.path.join(self.domain.path, self.lang,
+                                             'pootle-%s-%s.prefs' % (
+                    self.domain.name, self.name)))
 
     def update(self, string_id, new_value, old_value=None):
         """Update a string; if old_value is provided, only perform the edit

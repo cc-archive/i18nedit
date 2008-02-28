@@ -26,15 +26,6 @@
 	  /> 
     ${next.head()}
 
-<script>
-YAHOO.util.Event.onDOMReady(function () {
-
-    var oMenuBar = new YAHOO.widget.MenuBar("main_nav", {position: 'static'});
-    oMenuBar.render();
-    
-});
-</script>
-
   </head>
 
   <body class="yui-skin-sam">
@@ -43,26 +34,30 @@ YAHOO.util.Event.onDOMReady(function () {
       <div id="hd">
 	<h1>${self.title()}</h1>
 
-<div id="main_nav" class="yuimenubar">
-    <div class="bd">
-        <ul class="first-of-type">
-            <li class="yuimenubaritem first-of-type">
-                <a class="yuimenubaritemlabel" href="#">Translation Domains</a>
+	<div id="main_nav">
+          <ul>
+	    %if c.remote_user:
+	    <li class="nav_item">
+	      ${c.remote_user}
+	    </li>
+	    %endif
+            <li class="nav_item">
+                <a href="/domain/list">Translation Domains</a>
             </li>
-            <li class="yuimenubaritem first-of-type">
-                <a class="yuimenubaritemlabel" href="#">Languages</a>
+            <li class="nav_item">
+                <a href="/language">Languages</a>
             </li>
-            <li class="yuimenubaritem first-of-type">
-                <a class="yuimenubaritemlabel" href="/account/login">
-		  Login</a>
+	    %if not c.remote_user:
+            <li class="nav_item">
+                <a href="/account/login">Login</a>
             </li>
-            <li class="yuimenubaritem first-of-type">
-                <a class="yuimenubaritemlabel" href="/account/logout">
-		  Logout</a>
+	    %else:
+            <li class="nav_item">
+                <a href="/account/logout">Logout</a>
             </li>
-        </ul>
-    </div>
-</div>    
+	    %endif
+          </ul>
+	</div>
 
       </div>
 

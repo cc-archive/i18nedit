@@ -16,6 +16,7 @@ setup(
                       "Pylons>=0.9.6.1", 
                       'Babel',
                       'jsonlib',
+                      'AuthKit',
                       ],
     packages=find_packages(exclude=['ez_setup']),
     include_package_data=True,
