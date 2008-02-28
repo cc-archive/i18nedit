@@ -12,7 +12,10 @@ from tower.lib.base import *
 
 log = logging.getLogger(__name__)
 
+@decorator
 def injectroles(fn, *args, **kwargs):
+    """Call a the _get_roles method on self (args[0]), passing in the same
+    arguments passed to the controller action."""
 
     c.user_roles = args[0]._get_roles(*args[1:])
     return fn(*args, **kwargs)
@@ -37,7 +40,7 @@ class LanguageController(BaseController):
 
         prefs = tower.model.DomainLanguage.by_domain_id(domain, id).prefs
         if prefs.hasvalue('rights.%s' % username):
-            return prefs.getvalue('rights.%s' % username).split(',')
+            return prefs.getvalue('rights.%s' % username).split(', ')
 
         # fall back to the default user
         if prefs.hasvalue('rights.default'):
@@ -57,11 +60,12 @@ class LanguageController(BaseController):
 
         return render(template_fn)
 
-    @decorator(injectroles)
+    @injectroles
     def all(self, domain, id):
 
         return self._editor(domain, id, '/language/all.html')
 
+    @injectroles
     def untranslated(self, domain, id):
 
         return self._editor(domain, id, '/language/untranslated.html')
@@ -113,6 +117,12 @@ class LanguageController(BaseController):
         data = jsonlib.read(request.params['data'])
 
         # XXX trap an exception here that would be raised if edit conflict
-        language.update(data['id'], data['new_value'], data['old_value'])
+        if 'translate' in self._get_roles(domain, id):
+            # store the translation
+            language.update(data['id'], data['new_value'], data['old_value'])
+        else:
+            # store the translation as a suggestion
+            pass
+
 
 
