@@ -1,6 +1,10 @@
 <%inherit file="editor.html"/>
 
 <%def name="title()">
-${c.domain.name}: ${c.language}: All Strings
+<a href="${h.url_for(controller='domain', action='view',
+	 id=c.domain.name)}">${c.domain.name}</a>: 
+<a href="${h.url_for(controller='language', action='view', id=c.language.name,
+	 domain=c.domain.name)}">${c.language}</a>:
+All Strings
 </%def>
 

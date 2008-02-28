@@ -88,7 +88,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
 %if c.remote_user:
 <p>You can click the text in the <strong>Translation</strong> column
   to edit a translation.</p>
-  %if 'edit' not in c.user_roles:
+  %if 'translate' not in c.user_roles:
   <p class="notice">Your submissions will be filed
     as <em>suggestions</em>, pending approval by a translator.</p>
   %endif

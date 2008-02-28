@@ -2,6 +2,10 @@ body {
 
 }
 
+a {
+   text-decoration: none;
+}
+
 #hd {
    position: fixed;
    top:0;
@@ -11,6 +15,10 @@ body {
    background: #4374b7;
    color: #ededee;
    padding: 10px;
+}
+
+#hd a {
+   color: #ededee;
 }
 
 #bd {

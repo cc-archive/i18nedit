@@ -5,7 +5,9 @@
 </%def>
 
 <%def name="title()">
-${c.domain.name}: ${c.language}
+<a href="${h.url_for(controller='domain', action='view',
+	 id=c.domain.name)}">
+  ${c.domain.name}</a>: ${c.language}
 </%def>
 
 <%def name="body()">

@@ -1,11 +1,11 @@
 * Authentication
-** use roles/permissions
 ** global roles/permissions
-** signup
 * Support suggestions
 * Individual view, with suggestions
+* suggestions view
 * Subscribe to changes
 * Pagination
 * interface to multi-language display selection
 * column widths
 * Updated view
+* signup
