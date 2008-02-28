@@ -1,0 +1,19 @@
+<%inherit file="/base.html"/>
+
+<%def name="head()"></%def>
+
+<%def name="title()">
+Login
+</%def>
+
+<%def name="body()">
+<form action="FORM_ACTION" method="post">
+  <dl>
+    <dt>Username:</dt>
+    <dd><input type="text" name="username"></dd>
+    <dt>Password:</dt>
+    <dd><input type="password" name="password"></dd>
+  </dl>
+  <input type="submit" name="authform" value="login" />
+</form>
+</%def>
