@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:tal="http://xml.zope.org/namespaces/tal" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Simple Form</title>
+</head>
+<body>
+ <h1>Simple Form</h1>
+ <p tal:condition='message' tal:content='message'/>
+ <form action='' method='post'>
+  <p>My favorite color is <input type="text" tal:attributes='value color' name='color'/></p>
+  <input type='hidden' name='dosave' value='1'/>
+ </form>
+ <p>My other favorite colors are
+  <font tal:repeat='color colors' tal:attributes='color color'>the color <span tal:content='color'>fred</span>
+  </font>
+ </p>
+</body>
+</html>

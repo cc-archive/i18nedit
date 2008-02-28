@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:tal="http://xml.zope.org/namespaces/tal" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+ <title>jToolkit Mark II Tutorial</title>
+</head>
+<body>
+ <h1>jToolkit Mark II Tutorial</h1>
+ <ul>
+  <li tal:repeat='page pages'>
+    <a href="page.html" tal:attributes='href page/href' tal:content='page/title'>Page</a>
+    source: <a href="src/page.html" tal:attributes='href page/htmlsrc'>html</a>
+    <a href="src/page.py" tal:condition="page/pysrc" tal:attributes='href page/pysrc'>python</a>
+  </li>
+ </ul>
+</body>
+</html>

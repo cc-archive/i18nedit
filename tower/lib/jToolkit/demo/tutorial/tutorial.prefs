@@ -1,0 +1,5 @@
+importmodules:
+  tutorial = "tutorial"
+TutorialConfig:
+  serverclass = tutorial.TutorialServer
+

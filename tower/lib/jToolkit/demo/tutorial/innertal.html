@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:tal="http://xml.zope.org/namespaces/tal" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Inner TAL</title>
+<link rel="jses" href="replace.jses"/>
+<script src="cssquery.js" type="text/javascript"></script>
+<script src="jses.js" type="text/javascript"></script>
+<script src="ajax.js" type="text/javascript"></script>
+<script src="HTMLoverlay.js" type="text/javascript"></script>
+<script src="microapi.js" type="text/javascript"></script>
+<script src="replace.js" type="text/javascript"></script>
+</head>
+<body>
+ <h1>Inner TAL</h1>
+ <p>Today is <span tal:content="today">today</span> (from original page request)</p>
+ <p><a class="replacelink" replacetarget="inner" href="innertal.html/inner">update below (using JSES)</a></p>
+ <p id="inner">This is a paragraph that can be accessed internally, even on <span tal:content="today">today</span>!</p>
+ <p><a onclick="this.onclickreplace = onclickreplace; return this.onclickreplace(this);" replacetarget="inner" href="innertal.html/inner">update date above (using manual javascript)</a></p>
+
+</body>
+</html>
