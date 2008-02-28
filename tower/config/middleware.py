@@ -10,6 +10,8 @@ from pylons.middleware import error_mapper, ErrorDocuments, ErrorHandler, \
     StaticJavascripts
 from pylons.wsgiapp import PylonsApp
 
+import authkit.authenticate
+
 from tower.config.environment import load_environment
 
 def make_app(global_conf, full_stack=True, **app_conf):
@@ -35,6 +37,9 @@ def make_app(global_conf, full_stack=True, **app_conf):
 
     # The Pylons WSGI app
     app = PylonsApp()
+
+    # Authentication Layer (AuthKit)
+    app = authkit.authenticate.middleware(app, app_conf)
 
     # CUSTOM MIDDLEWARE HERE (filtered by error handling middlewares)
 
