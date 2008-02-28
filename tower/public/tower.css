@@ -1,0 +1,21 @@
+body {
+
+}
+
+#hd {
+   position: fixed;
+   top:0;
+   left:0;
+   height:80px;
+   width:100%;
+   background: #4374b7;
+   color: #ededee;
+   padding: 10px;
+}
+
+#bd {
+   padding-top: 100px;
+
+   margin-top: 15px;
+}
+
