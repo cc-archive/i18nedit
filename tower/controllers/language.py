@@ -122,7 +122,8 @@ class LanguageController(BaseController):
             language.update(data['id'], data['new_value'], data['old_value'])
         else:
             # store the translation as a suggestion
-            pass
+            language.suggest(request.environ.get("REMOTE_USER", False),
+                             data['id'], data['new_value'])
 
 
 

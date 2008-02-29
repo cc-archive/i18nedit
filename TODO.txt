@@ -1,11 +1,23 @@
-* Authentication
-** global roles/permissions
+* store strings in individual files
+** 4 words + hash + .txt
 * Support suggestions
 * Individual view, with suggestions
 * suggestions view
-* Subscribe to changes
+
+* Authentication
+** use something other than the pootle file...
+** global roles/permissions
+* signup
+
 * Pagination
 * interface to multi-language display selection
+
+* Subscribe to changes
+* "Updated" view
+* "add string" interface
+
+
 * column widths
-* Updated view
-* signup
+* string validators
+
+* chart porn

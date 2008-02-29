@@ -70,3 +70,15 @@ class Language(object):
         record.string = new_value
         babel.messages.pofile.write_po(file(self._po_filename, 'w'),
                                        catalog)
+
+    def suggest(self, username, string_id, suggestion):
+        """Store a suggestion for a given string."""
+
+        # figure out where to store this suggestion
+        sugg_path = os.path.join(self.domain.path, self.lang, 'suggestions',
+                                 hash(string_id))
+        if not os.path.exists(sugg_path):
+            os.mkdirs(sugg_path)
+
+        # write the suggestion to disk
+        
