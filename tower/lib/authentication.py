@@ -1,43 +1,39 @@
-from tower.lib import jToolkit
-from tower.lib.jToolkit import prefs
+import logging
+
 from authkit.users import UsersReadOnly
+from authkit.permissions import RequestPermission, HasAuthKitRole
 
-class PootleUsers(UsersReadOnly):
+log = logging.getLogger(__name__)
 
-    def __init__(self, data, encrypt=None):
-        super(PootleUsers, self).__init__(data, encrypt)
+class HasContextRole(RequestPermission):
 
-        self._prefs_file = data
+    def __init__(self, role, all=False, keys=[], id_key=None):
 
-    @property
-    def _prefs(self):
-        """Return the parsed prefs object."""
-    
-        return prefs.PrefsParser(self._prefs_file)
+        self.role = role
+        self.all = all
+        self.keys = keys
+        self.id_key = id_key
 
-    def user_exists(self, username):
-        
-        return self._prefs.hasvalue(username)
+    def check(self, app, environ, start_response):
 
-    def role_exists(self, role):
+        # start with the basic role passed in
+        roles = [self.role]
 
-        return False
-        pass
+        # get the routing information
+        route_info = environ['pylons.routes_dict']
 
-    def group_exists(self, role):
+        # look for other roles that are the equivalent, in this context
+        if self.id_key is not None and 'id' in route_info:
+            roles.append('%s-%s-%s' % (self.id_key, route_info['id'], 
+                                       self.role))
 
-        return False
-        pass
+        for k in self.keys:
+            if k in environ['pylons.routes_dict']:
+                roles.append('%s-%s-%s' % (k, environ['pylons.routes_dict'][k], 
+                                           self.role)
+                             )
 
-    def user_password(self, username):
+        # defer to the included permission checker
+        return HasAuthKitRole(roles, all=self.all).check(
+            app, environ, start_response)
 
-        return self._prefs.getvalue('%s.passwdhash' % username)
-
-    """
-    def user_group(self, username):
-        pass
-
-    def user_roles(self, username):
-        pass
-
-    """

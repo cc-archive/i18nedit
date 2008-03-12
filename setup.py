@@ -7,7 +7,7 @@ except ImportError:
 
 setup(
     name='tower',
-    version="8.2-dev",
+    version="8.3-dev",
     #description='',
     #author='',
     #author_email='',
@@ -16,7 +16,10 @@ setup(
                       "Pylons>=0.9.6.1", 
                       'Babel',
                       'jsonlib',
-                      'AuthKit',
+                      'AuthKit>0.4',
+                      'SQLAlchemy>=0.4.1',
+                      'SQLAlchemyManager',
+                      'pysqlite',
                       ],
     packages=find_packages(exclude=['ez_setup']),
     include_package_data=True,
