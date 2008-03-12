@@ -37,26 +37,11 @@
 
 	<div id="main_nav">
           <ul>
-	    %if c.remote_user:
+	    % for action_url, action_name in c.actions:
 	    <li class="nav_item">
-	      ${c.remote_user}
+	      <a href="${action_url}">${action_name}</a>
 	    </li>
-	    %endif
-            <li class="nav_item">
-                <a href="/domain/list">Translation Domains</a>
-            </li>
-            <li class="nav_item">
-                <a href="/language">Languages</a>
-            </li>
-	    %if not c.remote_user:
-            <li class="nav_item">
-                <a href="/account/login">Login</a>
-            </li>
-	    %else:
-            <li class="nav_item">
-                <a href="/account/logout">Logout</a>
-            </li>
-	    %endif
+	    % endfor
           </ul>
 	</div>
 

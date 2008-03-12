@@ -28,6 +28,7 @@ class State:
 c = State()
 c.user = 'None'
 c.remote_user = False
+c.actions = []
 
 def make_template():
     return buffet.render(
