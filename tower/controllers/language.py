@@ -1,24 +1,18 @@
 import urllib
 import logging
-from decorator import decorator
 
 import jsonlib
-from authkit.authorize.pylons_adaptors import authorize
-from authkit.permissions import HasAuthKitRole, ValidAuthKitUser
+from authkit.authorize.pylons_adaptors import (
+    authorize, authorized, authorize_request)
+from authkit.authorize import PermissionError
+from authkit.permissions import ValidAuthKitUser
 from pylons.decorators import jsonify
 
-import tower.model
 from tower.lib.base import *
+import tower.model
+from tower.lib.authentication import HasContextRole
 
 log = logging.getLogger(__name__)
-
-@decorator
-def injectroles(fn, *args, **kwargs):
-    """Call a the _get_roles method on self (args[0]), passing in the same
-    arguments passed to the controller action."""
-
-    c.user_roles = args[0]._get_roles(*args[1:])
-    return fn(*args, **kwargs)
 
 class LanguageController(BaseController):
 
@@ -30,24 +24,17 @@ class LanguageController(BaseController):
 
         return render('/language/view.html')
 
-    def _get_roles(self, domain, id):
-        """Return a sequence of roles the logged in user has for this 
-        language."""
+    @authorize(HasContextRole('administer',  keys=('lang', 'domain'), 
+                              id_key='lang'))
+    def admin(self, domain, id):
+        """Administer a language in a domain."""
 
-        username = request.environ.get("REMOTE_USER", False)
-        if not username:
-            return []
+        # get the Domain and Language objects and render the template
+        c.domain = tower.model.Domain.by_name(domain)
+        c.language = c.domain.get_language(id)
 
-        prefs = tower.model.DomainLanguage.by_domain_id(domain, id).prefs
-        if prefs.hasvalue('rights.%s' % username):
-            return prefs.getvalue('rights.%s' % username).split(', ')
-
-        # fall back to the default user
-        if prefs.hasvalue('rights.default'):
-            return prefs.getvalue('rights.default').split(',')
-
-        return []
-
+        return render('/language/admin.html')
+    
     def _editor(self, domain, id, template_fn):
         """Abstraction of the editor view."""
 
@@ -60,22 +47,20 @@ class LanguageController(BaseController):
 
         return render(template_fn)
 
-    @injectroles
     def all(self, domain, id):
 
         return self._editor(domain, id, '/language/all.html')
 
-    @injectroles
     def untranslated(self, domain, id):
 
         return self._editor(domain, id, '/language/untranslated.html')
 
-    def _strings(self, domain, id, filter=lambda x:True):
+    def _messages(self, domain, id, filter=lambda x:True):
         domain = tower.model.Domain.by_name(domain)
-        langs = {id:domain.get_language(id).catalog}
+        langs = {id:domain.get_language(id)}
     
         for l_id in request.params.getall('lang'):
-            langs[l_id] = domain.get_language(l_id).catalog
+            langs[l_id] = domain.get_language(l_id)
             
         result = dict(domain=domain.name,
                       language=id,
@@ -94,19 +79,19 @@ class LanguageController(BaseController):
 
     @jsonify
     def strings(self, domain, id):
-        return self._strings(domain, id, lambda s:bool(s.id))
+        return self._messages(domain, id, lambda s:bool(s.id))
 
     @jsonify
     def untranslated_strings(self, domain, id):
 
-        en = tower.model.DomainLanguage.by_domain_id(domain, 'en').catalog
+        en = tower.model.DomainLanguage.by_domain_id(domain, 'en')
 
         def untrans_filter(message):
             return (message.id and ( not(message.string) or 
                                      message.string == en[message.id].string)
                     )
 
-        return self._strings(domain, id, untrans_filter)
+        return self._messages(domain, id, untrans_filter)
 
     @authorize(ValidAuthKitUser())
     def edit_string(self, domain, id):
