@@ -6,6 +6,7 @@ from pylons import config
 from jToolkit import prefs
 
 import domain
+import message
 
 class Language(object):
     """A specific language within a domain."""
@@ -33,20 +34,9 @@ class Language(object):
         return str(self)
 
     @property
-    def _po_filename(self):
+    def _message_store(self):
 
-        return os.path.join(
-            self.domain.path, self.lang, '%s.po' % self.domain.name)
-
-    @property
-    def catalog(self):
-        """Return a sequence of strings for this language."""
-        
-        catalog = babel.messages.pofile.read_po(file(self._po_filename, 'r'),
-                                                locale=self.name,
-                                                domain=self.domain.name)
-
-        return catalog
+        return os.path.join(self.domain.path, self.lang)
 
     @property
     def prefs(self):
@@ -56,29 +46,35 @@ class Language(object):
                                              'pootle-%s-%s.prefs' % (
                     self.domain.name, self.name)))
 
-    def update(self, string_id, new_value, old_value=None):
-        """Update a string; if old_value is provided, only perform the edit
-        if the value has not been editted in the interim."""
+    def get_message(self, id):
+        """Return a Message in this language."""
 
-        catalog = self.catalog
-        record = catalog[string_id]
+        return message.Message(self, id)
 
-        if old_value is not None:
-            if record.string != old_value:
-                raise Exception
+    def messages(self):
+        """Return a sequence of Message objects."""
 
-        record.string = new_value
-        babel.messages.pofile.write_po(file(self._po_filename, 'w'),
-                                       catalog)
+        return [Message(self, m[:-4])
+                for m in os.listdir(self._message_store)
+                if m[-4:] == '.txt']
 
-    def suggest(self, username, string_id, suggestion):
-        """Store a suggestion for a given string."""
+    def __getitem__(self, key):
+        """Convenience method for accessing a Message by id."""
 
-        # figure out where to store this suggestion
-        sugg_path = os.path.join(self.domain.path, self.lang, 'suggestions',
-                                 hash(string_id))
-        if not os.path.exists(sugg_path):
-            os.mkdirs(sugg_path)
+        if os.path.exists(os.path.join(self._message_store, '%s.txt' % key)):
+            return message.Message(self, key)
 
-        # write the suggestion to disk
+        raise KeyError
+
+    def __len__(self):
         
+        return len(os.listdir(self._message_store))
+
+    def __iter__(self):
+
+        for filename in os.listdir(self._message_store):
+
+            if filename[-4:] != '.txt':
+                continue
+
+            yield (message.Message(self, filename[:-4]))
