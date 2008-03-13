@@ -1,2 +1,2 @@
-recursive-include tower/public *
-recursive-include tower/templates *
+recursive-include herder/public *
+recursive-include herder/templates *
