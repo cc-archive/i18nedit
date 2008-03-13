@@ -1,1 +1,3 @@
 http://authkit.org/svn/AuthKit/trunk/#egg=AuthKit-dev
+svn://lesscode.org/pudge/trunk#egg=pudge-dev
+svn://lesscode.org/buildutils/trunk#egg=buildutils-dev
