@@ -1,34 +1,35 @@
-* actions
+General
+=======
 
 * Authentication
--* use something other than the pootle file...
--* global roles/permissions
--* per-language roles -- probably replace the inject_roles decorator
 ** role assignment interface
--** per-language admins
--* unset c.remote_user for logout view
--* test with current AuthKit (buildout)
+** unset c.remote_user for logout view
 
-- store strings in individual files
--- 4 words + hash + .txt
-* allow editting of strings in individual files
-* individual string view/edit actions
+* account registration/verification
+* split title and header so we don't have ugly html in the title
 
-* Support suggestions
-* Individual view, with suggestions
-* suggestions view
+* chart porn
+
+Domains
+=======
+
+Languages
+=========
 
 * Pagination
 * interface to multi-language display selection
-
-* Subscribe to changes
-* "Updated" view
-* "add string" interface -- this will need to calculate the new string is
-
-* signup
-
+* suggestions view for an entire domain-language
+* subscribe to changes
+* "updated" view
+* add string support(?)
 * column widths
-* string validators
+* update editting to support the new individual file approach
 
-* chart porn
-* split title and header so we don't have ugly html in the title
+Messages
+========
+
+* Support suggestions
+* Individual view, with suggestions
+* string validators -- ensure no unclosed HTML, all substitution
+  variables have been included.
+

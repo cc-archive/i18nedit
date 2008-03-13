@@ -30,3 +30,21 @@ Tweak the config file as appropriate and then setup the application::
 Then you are ready to go.
 
 A development config file, cunningly named ``development.ini``, is provided.
+
+Development
+===========
+
+``Herder`` uses `zc.buildout <http://python.org/pypi/zc.buildout>`_ to
+manage dependencies and the deployment process.  To work on
+``Herder``, you'll need to do the following::
+
+  $ python2.5 bootstrap/bootstrap.py
+  $ ./bin/buildout
+
+Buildout will retrieve the necessary dependencies and install them in
+the ``eggs`` sub-directory.  After buildout completes you can
+initialize the database and run the application::
+
+  $ ./bin/paster setup-app development.ini
+  $ ./bin/paster serve --reload development.ini
+

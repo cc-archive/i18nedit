@@ -1,0 +1,84 @@
+Authentication
+++++++++++++++
+
+Herder uses `AuthKit <http://authkit.org>`_ for authentication and
+authorization.  In addition to the basic users, roles and groups,
+Herder extends the permission model to support "contextual" roles.
+Contextual roles are roles, such as ``administrater`` or
+``translate``, applied to a specific context -- either a Domain or a
+Language.
+
+Role Format
+-----------
+
+Herder uses the convention ``{prefix}-{id}-{role name}`` to define a
+contextual role.  For example, a user with permission to administer
+the English language would have the role ``lang-en-administer``.
+
+Creating Roles
+--------------
+
+The Herder environment loader (herder/config/environment.py) scans
+available domains and creates the roles for each, and for each
+language contained therein if they do not already exist.
+
+Authorizing with Contextual Roles
+---------------------------------
+
+herder.lib.authentication provides a decorator,
+``HasContextPermission``,  which can be used to ensure a user is
+authorized before the request is served.  ``HasContextPermission``
+takes ones required parameter and three optional parameters.
+
+The simplest case only specifies a role::
+
+  @HasContextPermission('administer')
+
+This case implements the same functionality as the default
+``HasAuthKitRole`` decorator.
+
+Two parameters, ``id_key`` and ``keys``, are used to specify how the
+routing parameters (and therefore controller parameters).  ``id`` is a
+common controller parameter in Pylons applications and therefore
+receives special treatment.   ``id_key`` specifies the prefix to be
+used with the ``id`` parameter.  For example::
+
+    @HasContextPermissions('administer', id_key='lang'):
+    def view(self, id):
+        ...
+
+
+would require that a user have either the ``administer`` or
+``lang-{id}-administer`` role to access the view.
+
+The ``keys`` parameter is a sequence of additional parameters to
+query.  For example::
+
+    @HasContextPermissions('administer', id_key='lang', keys=('domain',)):
+    def view(self, domain, id):
+        ...
+
+would require that a user have either the ``administer``,
+``domain-{domain}-administer`` or ``lang-{id}-administer`` role to
+access the view. 
+
+Finally, the ``all`` parameter may be set to ``True`` to require that
+all generated roles be met (intersection).
+
+
+Deficiencies
+------------
+
+We currently don't have a way to talk about nested contexts; for
+example, the English language within a specific domain.  One
+possibility may be roles such as::
+
+  domain-{domain}-lang-{lang}-{rolename}
+
+``HasContextPermission`` could be extended to support nested sequences
+in keys; for example::
+
+  @HasContextPermission('administer', keys=('domain', 'lang',
+       ('domain', 'lang')) )
+  def admin(self, domain, lang):
+      ...
