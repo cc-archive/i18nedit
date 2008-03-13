@@ -1,9 +1,4 @@
-try:
-    from setuptools import setup, find_packages
-except ImportError:
-    from ez_setup import use_setuptools
-    use_setuptools()
-    from setuptools import setup, find_packages
+from setuptools import setup, find_packages
 
 setup(
     name='herder',
@@ -12,14 +7,22 @@ setup(
     #author='',
     #author_email='',
     #url='',
-    install_requires=['setuptools', 
-                      "Pylons>=0.9.6.1", 
+    install_requires=['setuptools',
+                      'pudge',
+                      'buildutils',
+                      'Pygments',
+                      'Pylons>=0.9.6.1', 
                       'Babel',
                       'jsonlib',
-                      'AuthKit>0.4',
+                      'AuthKit>=dev',
                       'SQLAlchemy>=0.4.1',
                       'SQLAlchemyManager',
                       'pysqlite',
+                      ],
+
+    dependency_links=['http://authkit.org/svn/AuthKit/trunk/#egg=AuthKit-dev',
+                      'svn://lesscode.org/pudge/trunk#egg=pudge-dev',
+                      'svn://lesscode.org/buildutils/trunk#egg=buildutils-dev'
                       ],
     packages=find_packages(exclude=['ez_setup']),
     include_package_data=True,
