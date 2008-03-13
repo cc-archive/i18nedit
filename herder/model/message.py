@@ -4,8 +4,6 @@ import codecs
 
 from pylons import config
 
-from jToolkit import prefs
-
 import domain
 import language
 

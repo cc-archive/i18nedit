@@ -3,8 +3,6 @@ import babel.messages.pofile
 
 from pylons import config
 
-from jToolkit import prefs
-
 import domain
 import message
 
@@ -37,14 +35,6 @@ class Language(object):
     def _message_store(self):
 
         return os.path.join(self.domain.path, self.lang)
-
-    @property
-    def prefs(self):
-        """Return the Pootle (sigh) properties object."""
-
-        return prefs.PrefsParser(os.path.join(self.domain.path, self.lang,
-                                             'pootle-%s-%s.prefs' % (
-                    self.domain.name, self.name)))
 
     def get_message(self, id):
         """Return a Message in this language."""

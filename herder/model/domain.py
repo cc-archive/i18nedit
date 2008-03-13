@@ -3,8 +3,6 @@ import babel.messages.pofile
 
 from pylons import config
 
-from jToolkit import prefs
-
 import language
 
 class Domain(object):
