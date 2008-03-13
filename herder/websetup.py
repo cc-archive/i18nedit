@@ -1,4 +1,4 @@
-"""Setup the tower application"""
+"""Setup the herder application"""
 import logging
 
 from paste.deploy import appconfig
@@ -7,13 +7,13 @@ from pylons import config
 from sqlalchemymanager import SQLAlchemyManager
 import authkit.users.sqlalchemy_04_driver
 
-from tower.config.environment import load_environment, CONTEXT_ROLES
-from tower.model import setup_model
+from herder.config.environment import load_environment, CONTEXT_ROLES
+from herder.model import setup_model
 
 log = logging.getLogger(__name__)
 
 def setup_config(command, filename, section, vars):
-    """Place any commands to setup tower here"""
+    """Place any commands to setup herder here"""
     conf = appconfig('config:' + filename)
     load_environment(conf.global_conf, conf.local_conf)
 
@@ -47,36 +47,4 @@ def setup_config(command, filename, section, vars):
     finally:
         session.close()
         connection.close()
-
-    """
-    # Populate the DB on 'paster setup-app'
-    import tower.model as model
-    users = UsersFromDatabase(model) 
-
-    log.info("Setting up database connectivity...")
-    engine = config['pylons.g'].sa_engine
-    log.info("Creating tables...")
-    model.metadata.create_all(bind=engine)
-    log.info("Successfully set up.")
-    
-    #uri = conf['sqlalchemy.dburi'] 
-    #engine = create_engine(uri) 
-    ##print "Connecting to database %s" % uri 
-
-    #model.meta.connect(engine) 
-    #print "Creating tables" 
-    #model.meta.create_all(engine) 
-    print "Adding users and roles" 
-    users.role_create("delete") 
-    users.user_create("admin", password="opensesame") 
-    users.user_add_role("admin", role="delete")
-
-    log.info("Adding front page data...")
-    page = model.Page()
-    page.title = 'FrontPage'
-    page.content = 'Welcome to the QuickWiki front page.'
-    #model.Session.save(page)
-    model.Session.commit()
-    log.info("Successfully set up.")
-    """
 

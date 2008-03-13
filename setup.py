@@ -6,7 +6,7 @@ except ImportError:
     from setuptools import setup, find_packages
 
 setup(
-    name='tower',
+    name='herder',
     version="8.3-dev",
     #description='',
     #author='',
@@ -24,14 +24,14 @@ setup(
     packages=find_packages(exclude=['ez_setup']),
     include_package_data=True,
     test_suite='nose.collector',
-    package_data={'tower': ['i18n/*/LC_MESSAGES/*.mo']},
-    #message_extractors = {'tower': [
+    package_data={'herder': ['i18n/*/LC_MESSAGES/*.mo']},
+    #message_extractors = {'herder': [
     #        ('**.py', 'python', None),
     #        ('templates/**.mako', 'mako', None),
     #        ('public/**', 'ignore', None)]},
     entry_points="""
     [paste.app_factory]
-    main = tower.config.middleware:make_app
+    main = herder.config.middleware:make_app
 
     [paste.app_install]
     main = pylons.util:PylonsInstaller

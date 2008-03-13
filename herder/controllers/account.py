@@ -3,7 +3,7 @@ import logging
 from authkit.authorize.pylons_adaptors import authorize
 from authkit.permissions import HasAuthKitRole, ValidAuthKitUser
 
-from tower.lib.base import *
+from herder.lib.base import *
 
 log = logging.getLogger(__name__)
 

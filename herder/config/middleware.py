@@ -13,10 +13,10 @@ from pylons.wsgiapp import PylonsApp
 from authkit.users import sqlalchemy_04_driver
 import authkit.authenticate
 
-from tower.model import setup_model
+from herder.model import setup_model
 from sqlalchemymanager import SQLAlchemyManager
 
-from tower.config.environment import load_environment
+from herder.config.environment import load_environment
 
 def make_app(global_conf, full_stack=True, **app_conf):
     """Create a Pylons WSGI application and return it

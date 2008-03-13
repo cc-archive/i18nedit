@@ -1,4 +1,4 @@
-from tower.lib.base import *
+from herder.lib.base import *
 
 class TemplateController(BaseController):
 

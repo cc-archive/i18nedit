@@ -9,10 +9,10 @@ from sqlalchemy import engine_from_config
 from sqlalchemymanager import SQLAlchemyManager
 import authkit.users.sqlalchemy_04_driver
 
-import tower.lib.app_globals as app_globals
-import tower.lib.helpers
-from tower.config.routing import make_map
-from tower import model
+import herder.lib.app_globals as app_globals
+import herder.lib.helpers
+from herder.config.routing import make_map
+from herder import model
 
 log = logging.getLogger(__name__)
 
@@ -31,12 +31,12 @@ def load_environment(global_conf, app_conf):
                  templates=[os.path.join(root, 'templates')])
 
     # Initialize config with the basic options
-    config.init_app(global_conf, app_conf, package='tower',
+    config.init_app(global_conf, app_conf, package='herder',
                     template_engine='mako', paths=paths)
 
     config['routes.map'] = make_map()
     config['pylons.g'] = app_globals.Globals()
-    config['pylons.h'] = tower.lib.helpers
+    config['pylons.h'] = herder.lib.helpers
 
     # Customize templating options via this variable
     tmpl_options = config['buffet.template_options']

@@ -1,7 +1,7 @@
 import pylons
 from pylons.templating import Buffet
 from pylons import config
-import tower.lib.helpers as h
+import herder.lib.helpers as h
 
 class MyBuffet(Buffet):
     def _update_names(self, ns):

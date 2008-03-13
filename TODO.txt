@@ -1,23 +1,34 @@
-* store strings in individual files
-** 4 words + hash + .txt
+* actions
+
+* Authentication
+-* use something other than the pootle file...
+-* global roles/permissions
+-* per-language roles -- probably replace the inject_roles decorator
+** role assignment interface
+-** per-language admins
+-* unset c.remote_user for logout view
+-* test with current AuthKit (buildout)
+
+- store strings in individual files
+-- 4 words + hash + .txt
+* allow editting of strings in individual files
+* individual string view/edit actions
+
 * Support suggestions
 * Individual view, with suggestions
 * suggestions view
-
-* Authentication
-** use something other than the pootle file...
-** global roles/permissions
-* signup
 
 * Pagination
 * interface to multi-language display selection
 
 * Subscribe to changes
 * "Updated" view
-* "add string" interface
+* "add string" interface -- this will need to calculate the new string is
 
+* signup
 
 * column widths
 * string validators
 
 * chart porn
+* split title and header so we don't have ugly html in the title

@@ -8,9 +8,9 @@ from authkit.authorize import PermissionError
 from authkit.permissions import ValidAuthKitUser
 from pylons.decorators import jsonify
 
-from tower.lib.base import *
-import tower.model
-from tower.lib.authentication import HasContextRole
+from herder.lib.base import *
+import herder.model
+from herder.lib.authentication import HasContextRole
 
 log = logging.getLogger(__name__)
 
@@ -19,7 +19,7 @@ class LanguageController(BaseController):
     def view(self, domain, id):
         """View a specific domain language."""
 
-        c.domain = tower.model.Domain.by_name(domain)
+        c.domain = herder.model.Domain.by_name(domain)
         c.language = c.domain.get_language(id)
 
         return render('/language/view.html')
@@ -30,7 +30,7 @@ class LanguageController(BaseController):
         """Administer a language in a domain."""
 
         # get the Domain and Language objects and render the template
-        c.domain = tower.model.Domain.by_name(domain)
+        c.domain = herder.model.Domain.by_name(domain)
         c.language = c.domain.get_language(id)
 
         return render('/language/admin.html')
@@ -38,7 +38,7 @@ class LanguageController(BaseController):
     def _editor(self, domain, id, template_fn):
         """Abstraction of the editor view."""
 
-        c.domain = tower.model.Domain.by_name(domain)
+        c.domain = herder.model.Domain.by_name(domain)
         c.language = c.domain.get_language(id)
 
         c.addl_langs = request.params.getall('lang')
@@ -56,7 +56,7 @@ class LanguageController(BaseController):
         return self._editor(domain, id, '/language/untranslated.html')
 
     def _messages(self, domain, id, filter=lambda x:True):
-        domain = tower.model.Domain.by_name(domain)
+        domain = herder.model.Domain.by_name(domain)
         langs = {id:domain.get_language(id)}
     
         for l_id in request.params.getall('lang'):
@@ -84,7 +84,7 @@ class LanguageController(BaseController):
     @jsonify
     def untranslated_strings(self, domain, id):
 
-        en = tower.model.DomainLanguage.by_domain_id(domain, 'en')
+        en = herder.model.DomainLanguage.by_domain_id(domain, 'en')
 
         def untrans_filter(message):
             return (message.id and ( not(message.string) or 
@@ -97,7 +97,7 @@ class LanguageController(BaseController):
     def edit_string(self, domain, id):
         """Edit an individual string."""
 
-        language = tower.model.DomainLanguage.by_domain_id(domain, id)
+        language = herder.model.DomainLanguage.by_domain_id(domain, id)
         
         data = jsonlib.read(request.params['data'])
 

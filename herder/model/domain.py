@@ -16,8 +16,8 @@ class Domain(object):
     def by_name(cls, name):
         """Return a Domain instance by name."""
 
-        if os.path.exists(os.path.join(config.get('tower.po_dir'), name)):
-            return Domain(name, os.path.join(config.get('tower.po_dir'), name))
+        if os.path.exists(os.path.join(config.get('herder.po_dir'), name)):
+            return Domain(name, os.path.join(config.get('herder.po_dir'), name))
 
         raise KeyError("Unknown domain name.")
 
@@ -25,10 +25,10 @@ class Domain(object):
     def all(cls):
         """Return a sequence of all available domains."""
 
-        return [Domain(n, os.path.join(config.get('tower.po_dir'), n)) 
-                for n in os.listdir(config.get('tower.po_dir'))
+        return [Domain(n, os.path.join(config.get('herder.po_dir'), n)) 
+                for n in os.listdir(config.get('herder.po_dir'))
                 if n not in cls._IGNORE_DIRS and 
-                   os.path.isdir(os.path.join(config.get('tower.po_dir'), n))]
+                   os.path.isdir(os.path.join(config.get('herder.po_dir'), n))]
 
     def __init__(self, name, path):
         self.name = name

@@ -3,7 +3,7 @@ import os.path
 import paste.fileapp
 from pylons.middleware import error_document_template, media_path
 
-from tower.lib.base import *
+from herder.lib.base import *
 
 class ErrorController(BaseController):
     """Generates error documents as and when they are required.

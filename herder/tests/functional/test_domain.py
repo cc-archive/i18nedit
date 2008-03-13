@@ -1,4 +1,4 @@
-from tower.tests import *
+from herder.tests import *
 
 class TestDomainController(TestController):
 
