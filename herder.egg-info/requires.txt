@@ -1,8 +1,10 @@
 setuptools
+pudge
+buildutils
 Pylons>=0.9.6.1
 Babel
 jsonlib
-AuthKit>0.4
+AuthKit>=dev
 SQLAlchemy>=0.4.1
 SQLAlchemyManager
 pysqlite

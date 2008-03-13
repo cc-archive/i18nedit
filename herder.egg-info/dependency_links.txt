@@ -1,1 +1,1 @@
-
+http://authkit.org/svn/AuthKit/trunk/#egg=AuthKit-dev
