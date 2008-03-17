@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='herder',
-    version="8.3-dev",
+    version="8.3",
     #description='',
     #author='',
     #author_email='',
