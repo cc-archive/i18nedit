@@ -14,14 +14,13 @@ setup(
                       'Pylons>=0.9.6.1', 
                       'Babel',
                       'jsonlib',
-                      'AuthKit>=dev',
+                      'AuthKit>0.4',
                       'SQLAlchemy>=0.4.1',
                       'SQLAlchemyManager',
                       'pysqlite',
                       ],
 
-    dependency_links=['http://authkit.org/svn/AuthKit/trunk/#egg=AuthKit-dev',
-                      'svn://lesscode.org/pudge/trunk#egg=pudge-dev',
+    dependency_links=['svn://lesscode.org/pudge/trunk#egg=pudge-dev',
                       'svn://lesscode.org/buildutils/trunk#egg=buildutils-dev'
                       ],
     packages=find_packages(exclude=['ez_setup']),
