@@ -9,6 +9,7 @@ setup(
     #url='',
     install_requires=['setuptools',
                       'pudge',
+                      'nose',
                       'buildutils',
                       'Pygments',
                       'Pylons>=0.9.6.1', 
@@ -21,7 +22,8 @@ setup(
                       ],
 
     dependency_links=['svn://lesscode.org/pudge/trunk#egg=pudge-dev',
-                      'svn://lesscode.org/buildutils/trunk#egg=buildutils-dev'
+                      'svn://lesscode.org/buildutils/trunk#egg=buildutils-dev',
+                      'http://authkit.org/svn/AuthKit/trunk/#egg=AuthKit-0.4.1dev',
                       ],
     packages=find_packages(exclude=['ez_setup']),
     include_package_data=True,
