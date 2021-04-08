@@ -47,4 +47,3 @@ initialize the database and run the application::
 
   $ ./bin/paster setup-app development.ini
   $ ./bin/paster serve --reload development.ini
-
